@@ -120,7 +120,7 @@ def clean_month(
     month_parts = month_start.split('-')
     files = list_s3_files(output_bucket, f'{raw_prefix}{month_parts[0]}/{month_parts[1]}', s3_client=s3_client)
     for index, file in enumerate(files):
-         print(f"Processing file {index + 1} of {len(files)}")
+         print(f"Cleaning file {index + 1} of {len(files)}")
          if file.endswith('document.json'):
             contents = read_json_from_s3(output_bucket, file, s3_client=s3_client)
             if contents:
