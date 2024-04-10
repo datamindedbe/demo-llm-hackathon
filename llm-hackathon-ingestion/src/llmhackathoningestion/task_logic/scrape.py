@@ -1,6 +1,6 @@
 import requests
 import json
-from datetime import datetime, date
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from requests.adapters import HTTPAdapter, Retry
 import logging
@@ -51,14 +51,11 @@ def put_object_to_s3(jsonstring, path, output_bucket, s3_client):
     )
 
 def scrape_month(
-       month_str :str,
+       month :datetime,
        output_bucket :str,
        output_prefix : str,
        info_template :str,
     ):
-
-
-    month = datetime.strptime(month_str, "%Y-%m-%d")
     # set up the boto3 session
     s3_client = boto3.client('s3')
 

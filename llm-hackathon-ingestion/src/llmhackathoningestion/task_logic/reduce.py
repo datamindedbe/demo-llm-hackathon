@@ -42,8 +42,7 @@ def reduce_month(
         month,
         output_bucket,
         clean_prefix,
-        reduced_prefix,
-        aws_profile_name
+        reduced_prefix
 ):
     s3_client = boto3.client('s3')
 

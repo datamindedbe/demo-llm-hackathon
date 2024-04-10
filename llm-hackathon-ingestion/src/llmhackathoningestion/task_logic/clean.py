@@ -109,8 +109,7 @@ def clean_month(
     month: datetime,
     output_bucket: str,
     raw_prefix: str,
-    clean_prefix: str,
-    aws_profile_name: str
+    clean_prefix: str
 ):
     # set up the boto3 session
     s3_client = boto3.client('s3')
