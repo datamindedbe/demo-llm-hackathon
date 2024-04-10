@@ -1,0 +1,13 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Install python dependencies in ide",
+      "type": "shell",
+      "command": "pip install -r requirements.txt && pip install -e .",
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+docker:
+    path: .
+id: 9b3a9e43-c375-4301-be65-d1c8c6795b07
+ide:
+    filename: ide.yaml
+name: llm-hackathon-ingestion
+resources:
+    path: resources
+streaming:
+    filename: streaming.yaml
+template: project/python
+version: "0.3"
+workflows:
+    path: dags
+    version: "2"
