@@ -1,0 +1,15 @@
+docker:
+    path: "."
+name: llm-hackathon-project
+id: 5d117f59-3973-48f3-9c19-5421f3074ba2
+ide:
+    filename: ide.yaml
+resources:
+    path: resources
+streaming:
+    filename: streaming.yaml
+template: ""
+version: "0.3"
+workflows:
+    path: dags
+    version: 2
