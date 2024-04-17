@@ -44,22 +44,23 @@ data "aws_iam_policy_document" "project_access" {
     effect = "Allow"
   }
   statement {
-    effect = "Allow",
+    effect = "Allow"
     actions = [
-                "bedrock:InvokeModel"
-            ],
-    resources = [
-                "arn:aws:bedrock:us-east-1::foundation-model/*"
+                "bedrock:Retrieve",
+                "bedrock:GetFoundationModel",
+                "bedrock:ListFoundationModels",
+                "bedrock:GetModelInvocationLoggingConfiguration",
+                "bedrock:GetProvisionedModelThroughput",
+                "bedrock:ListProvisionedModelThroughputs",
+                "bedrock:GetModelCustomizationJob",
+                "bedrock:ListModelCustomizationJobs",
+                "bedrock:ListCustomModels",
+                "bedrock:GetCustomModel",
+                "bedrock:ListTagsForResource",
+                "bedrock:GetFoundationModelAvailability"
             ]
-  }
-  statement {
-    effect = "Allow",
-    actions = [
-      "aoss:APIAccessAll"
-    ],
     resources = [
-        "arn:aws:aoss:us-east-1:130966031144:collection/9tznel2c2v5pubu3gzn7",
-        "arn:aws:aoss:us-east-1:130966031144:collection/c7j6ur2w8my3fmd3tb2i"
-    ]
+                 "*"
+            ]
   }
 }

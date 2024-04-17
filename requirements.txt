@@ -1,5 +1,4 @@
 requests
-boto3
 html2text
 openai
 matplotlib
