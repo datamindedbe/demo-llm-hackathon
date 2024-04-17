@@ -40,11 +40,12 @@ def lambda_handler(event: dict, context: Optional[dict] = None):
 
     query = event["query"]
     bedrock = boto3.client('bedrock-agent-runtime', region_name='us-east-1')
-    knowledge_base_id = os.environ.get('KNOWLEDGE_BASE_ID')
+    knowledge_base_id = 'ECZYEUIJ59'
     retrievals = retrieve(bedrock, knowledge_base_id, query, 5)
 
-    openai_key = os.environ.get('OPENAI_KEY')
-    client = openai.OpenAI(api_key=openai_key)
+    ssm_client = boto3.client('ssm', region_name='eu-west-1')
+    open_ai_key = ssm_client.get_parameter(Name='llm-hackathon-openai-key')['Parameter']['Value']
+    client = openai.OpenAI(api_key=open_ai_key)
     model_response = get_response(client, query, "gpt-3.5-turbo")
 
 
