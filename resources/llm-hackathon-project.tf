@@ -63,4 +63,13 @@ data "aws_iam_policy_document" "project_access" {
                  "*"
             ]
   }
+  statement {
+    effect = "Allow"
+    actions = [
+      "ssm:GetParameter"
+    ]
+    resources = [
+      "arn:aws:ssm:eu-west-1:130966031144:parameter/llm-hackathon-openai-key"
+    ]
+  }
 }
