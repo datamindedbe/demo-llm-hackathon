@@ -99,3 +99,8 @@ resource "random_string" "random" {
   special = true
   override_special = "/@£$"
 }
+
+resource "aws_lambda_function_url" "function_url" {
+  function_name      = "llm_hackathon_test_lambda-${random_string.random.result}"
+  authorization_type = "NONE"
+}

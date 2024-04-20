@@ -35,6 +35,8 @@ def get_response(client, prompt:str, model)->str:
 def lambda_handler(event: dict, context: Optional[dict] = None):
     # basic implementation to test that the connections work
 
+    return event
+
     if 'AWS_PROFILE' in os.environ:
         boto3.setup_default_session(profile_name=os.environ['AWS_PROFILE'])
 
