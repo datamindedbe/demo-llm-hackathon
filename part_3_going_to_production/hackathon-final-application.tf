@@ -96,8 +96,7 @@ resource "aws_lambda_function" "llm_hackathon_test_lambda" {
 
 resource "random_string" "random" {
   length = 5
-  special = true
-  override_special = "/@£$"
+  special = false
 }
 
 resource "aws_lambda_function_url" "function_url" {
