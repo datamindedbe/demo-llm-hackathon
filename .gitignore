@@ -163,3 +163,8 @@ cython_debug/
 # lambda deploy
 part_3_going_to_production/package/
 part_3_going_to_production/package.zip
+
+*.tfstate
+*.terraform/
+*.tfstate.backup
+*.terraform.*
