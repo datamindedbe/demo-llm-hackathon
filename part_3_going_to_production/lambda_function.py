@@ -1,67 +1,41 @@
 import json
-from typing import Optional
-import os
 import boto3
-import openai
+from typing import Optional
+from src.bedrock import BedrockRetrievedItem, retrieve_bedrock_items
+from src.util import re_reference
+from src.llm import decisions_query
 
-
-def retrieve(bedrock_client, knowledge_base_id, search_string, items=10):
-    retrievals = bedrock_client.retrieve(
-        knowledgeBaseId=knowledge_base_id,
-        retrievalQuery={
-            'text': search_string
-        },
-        retrievalConfiguration={
-            'vectorSearchConfiguration': {
-                'numberOfResults': items
-            }
-        }
-    )
-    return retrievals['retrievalResults']
-
-def get_response(client, prompt:str, model)->str:
-    api_response = client.chat.completions.create(
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {
-                "role": "user",
-                "content": prompt,
-            }
-        ],
-        model=model,
-    )
-    return api_response.choices[0].message.content
 
 def lambda_handler(event: dict, context: Optional[dict] = None):
     # basic implementation to test that the connections work
 
-    return event
+    body = json.loads(event["body"])
+    query = body['query']
 
-    if 'AWS_PROFILE' in os.environ:
-        boto3.setup_default_session(profile_name=os.environ['AWS_PROFILE'])
+    decisions = retrieve_bedrock_items(query, 5)
+    llm_response = decisions_query(query, decisions)
 
-    query = event["query"]
-    bedrock = boto3.client('bedrock-agent-runtime', region_name='us-east-1')
-    knowledge_base_id = 'ECZYEUIJ59'
-    retrievals = retrieve(bedrock, knowledge_base_id, query, 5)
+    re_referenced_response, used_decisions = re_reference(llm_response, decisions)
 
-    ssm_client = boto3.client('ssm', region_name='eu-west-1')
-    open_ai_key = ssm_client.get_parameter(Name='llm-hackathon-openai-key')['Parameter']['Value']
-    client = openai.OpenAI(api_key=open_ai_key)
-    model_response = get_response(client, query, "gpt-3.5-turbo")
+    used_decisions_dicts = []
+    for decision in used_decisions:
+        used_decisions_dicts.append({
+            "text": decision.text,
+            "decision_url": decision.decision_url,
+            "title": decision.title,
+            "meeting_date": decision.meeting_date,
+            "score": decision.score
+        })
 
-
-    s3_client= boto3.client('s3')
-    s3_content = s3_client.get_object(Bucket='llmhackathon-demo', Key='data/translated/2024/03/en.2024-03-08-mededeling-16ef3a54-da36-11ee-8ea1-ff993de5bafc.txt')
-    s3_content = s3_content['Body'].read().decode('utf-8')
-
-    full_response = json.dumps({"test_bedrock":retrievals,"test_openai":model_response, 'test_s3':s3_content})
-    return {"statusCode": 200, "body": full_response}
+    response = json.dumps({"response":re_referenced_response,"decisions":used_decisions_dicts})
+    return {"statusCode": 200, "body": response}
     
 
 if __name__ == "__main__":
-    response = lambda_handler({
-            "query": "what is the government doing to improve the housing market?"
-        }
-    )
+
+    input = {
+        "body": "{\n    \"query\":\"what is the government doing for parents\"\n}"
+    }
+
+    response = lambda_handler(input)
     print(response)
