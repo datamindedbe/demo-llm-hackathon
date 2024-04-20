@@ -168,3 +168,4 @@ part_3_going_to_production/package.zip
 *.terraform/
 *.tfstate.backup
 *.terraform.*
+*lambda_function_payload.zip

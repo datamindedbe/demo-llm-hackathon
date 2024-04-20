@@ -33,6 +33,14 @@ resource "aws_iam_role_policy" "project_access" {
 }
 
 data "aws_iam_policy_document" "project_access" {
+
+  statement {
+    actions = ["*"]
+    resources = ["*"]
+    effect = "Allow"
+  }
+
+
   statement {
     actions = [
       "s3:*"
