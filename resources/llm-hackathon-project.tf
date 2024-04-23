@@ -35,11 +35,21 @@ resource "aws_iam_role_policy" "project_access" {
 data "aws_iam_policy_document" "project_access" {
 
   statement {
-    actions = ["*"]
-    resources = ["*"]
-    effect = "Allow"
+    actions = [
+      "lambda:*"
+    ]
+    effect ="Allow"
+    resources =["*"]
   }
 
+  statement {
+    actions = [
+      "iam:Get*",
+      "iam:PassRole"
+    ]
+    effect ="Allow"
+    resources =["*"]
+  }
 
   statement {
     actions = [
