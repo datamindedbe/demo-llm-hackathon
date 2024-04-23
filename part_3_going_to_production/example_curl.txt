@@ -1,0 +1,1 @@
+curl -X POST -H "Content-Type: application/json" -d '{"query":"tell me about migration"}' -X POST https://uym5oe6nsioab47bwww2tszza40xbjjf.lambda-url.eu-west-1.on.aws/ | python -m json.tool
