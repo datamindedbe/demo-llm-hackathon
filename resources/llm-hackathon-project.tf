@@ -48,7 +48,7 @@ data "aws_iam_policy_document" "project_access" {
       "iam:PassRole"
     ]
     effect ="Allow"
-    resources =["*"]
+    resources =["arn:aws:iam::130966031144:role/llm_hackathon_iam_for_lambda"]
   }
 
   statement {
